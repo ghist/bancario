@@ -18,14 +18,12 @@ class Cadastro:
 
     def busca(self, cpf):
         for lp in self._lista_conta:
-            if lp.cpf == cpf:
-                return lp
-                
+            if lp['cpf'] == cpf:
+                return lp      
         return None
 
     def login(self, cpf, senha):
         for lp in self._lista_conta:
-            if lp.cpf == cpf and lp.senha == senha:
+            if lp['cpf'] == cpf and lp['senha'] == senha:
                 return lp
-
         return None

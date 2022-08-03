@@ -12,7 +12,47 @@ class Conta:
         self._numero = numero
         self._saldo = saldo
         self._historico = Historico()
-        
+
+    @property
+    def nome(self):
+        return self._nome
+    
+    @property
+    def cpf(self):
+        return self._cpf
+
+    @property
+    def endereco(self):
+        return self._endereco
+
+    @property
+    def nascimento(self):
+        return self._nascimento
+
+    @property
+    def senha(self):
+        return self._senha
+    
+    @property
+    def numero(self):
+        return self._numero
+
+    @property
+    def saldo(self):
+        return self._saldo
+
+    @saldo.setter
+    def saldo(self, saldo):
+        return self._saldo
+
+    @nome.setter
+    def nome(self, nome):
+        self._nome = nome
+
+    @endereco.setter
+    def endereco(self, endereco):
+        self._endereco = endereco
+
     def sacar(self, valor):
         if(self._saldo < valor):
             return False

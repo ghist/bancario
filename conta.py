@@ -1,7 +1,7 @@
 from historico import Historico
 class Conta:
     
-    __slots__ = ['_nome', '_cpf','_endereco','_nascimento', '_senha','_numero','_saldo']
+    __slots__ = ['_nome', '_cpf','_endereco','_nascimento', '_senha','_numero','_saldo', '_historico']
     
     def __init__(self, nome, cpf, endereco, nascimento, senha, numero, saldo):
         self._nome = nome

@@ -3,7 +3,7 @@ import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import QCoreApplication, QDate
 
 from inicio_login import Tela_InicioLogin
 from tela_cadastro import Tela_Cadastro
@@ -53,6 +53,8 @@ class Main(QMainWindow, Ui_Main):
         super().__init__(parent)
         self.setupUi(self)
 
+        self.saldd = ''
+
         self.cad = Cadastro()
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCliente)
         self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaCadastro)
@@ -82,7 +84,14 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(1)
 
     def abrirTelaCliente(self):
-        self.QtStack.setCurrentIndex(2)
+        cpf = self.tela_inicial.lineEdit.text()
+        senha = self.tela_inicial.lineEdit_2.text()
+        pessoa = self.cad.login(cpf, senha)
+        if(pessoa):
+            self.QtStack.setCurrentIndex(2)
+            self.tela_cliente.lineEdit.setText(pessoa['nome'])
+            self.tela_cliente.lineEdit_2.setText(pessoa['saldo'])
+            self.saldd = pessoa['saldo']
 
     def botaoCadastra(self):
         nome = self.tela_cadastro.lineEdit.text()
@@ -96,20 +105,20 @@ class Main(QMainWindow, Ui_Main):
         if not(nome == '' or cpf == '' or endereco == '' or senha == '' or numero == '' ):
             p = Conta(nome, cpf, endereco, nascimento, senha, numero, saldo)
             if(self.cad.cadastra(p)):
-                QMessageBox.informativeText(None, 'Cadastro', 'Cadastro realizado')
+                QMessageBox.information(None, 'Cadastro', 'Cadastro realizado')
                 self.tela_cadastro.lineEdit.setText('')
                 self.tela_cadastro.lineEdit_2.setText('')
                 self.tela_cadastro.lineEdit_3.setText('')
                 self.tela_cadastro.lineEdit_4.setText('')
                 self.tela_cadastro.lineEdit_5.setText('')
                 self.tela_cadastro.lineEdit_6.setText('')
-                self.tela_cadastro.dateEdit.setDate('00/00/0000')
             else:
-                QMessageBox.informativeText(None, 'Cadastro', 'Cpf já cadastrado')
+                QMessageBox.information(None, 'Cadastro', 'Cpf já cadastrado')
         else:
             QMessageBox.information(None, 'Cadastro', 'Valores em branco devem ser preenchidos')
-    def botaoSacar(self):
+    def botaoSacar(self,):
         self.QtStack.setCurrentIndex(4)
+        self.tela_sacar.lineEdit.setText(self.saldd)
 
     def botaoDepositar(self):
         self.QtStack.setCurrentIndex(3)

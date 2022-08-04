@@ -2,7 +2,7 @@ import sys
 import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QCoreApplication
 
 from inicio_login import Tela_InicioLogin
@@ -85,8 +85,29 @@ class Main(QMainWindow, Ui_Main):
         self.QtStack.setCurrentIndex(2)
 
     def botaoCadastra(self):
-        pass
+        nome = self.tela_cadastro.lineEdit.text()
+        cpf = self.tela_cadastro.lineEdit_2.text()
+        endereco = self.tela_cadastro.lineEdit_3.text()
+        nascimento = self.tela_cadastro.dateEdit.date()
+        senha = self.tela_cadastro.lineEdit_4.text()
+        numero = self.tela_cadastro.lineEdit_5.text()
+        saldo = self.tela_cadastro.lineEdit_6.text()
 
+        if not(nome == '' or cpf == '' or endereco == '' or senha == '' or numero == '' ):
+            p = Conta(nome, cpf, endereco, nascimento, senha, numero, saldo)
+            if(self.cad.cadastra(p)):
+                QMessageBox.informativeText(None, 'Cadastro', 'Cadastro realizado')
+                self.tela_cadastro.lineEdit.setText('')
+                self.tela_cadastro.lineEdit_2.setText('')
+                self.tela_cadastro.lineEdit_3.setText('')
+                self.tela_cadastro.lineEdit_4.setText('')
+                self.tela_cadastro.lineEdit_5.setText('')
+                self.tela_cadastro.lineEdit_6.setText('')
+                self.tela_cadastro.dateEdit.setDate('00/00/0000')
+            else:
+                QMessageBox.informativeText(None, 'Cadastro', 'Cpf já cadastrado')
+        else:
+            QMessageBox.information(None, 'Cadastro', 'Valores em branco devem ser preenchidos')
     def botaoSacar(self):
         self.QtStack.setCurrentIndex(4)
 

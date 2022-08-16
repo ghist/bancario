@@ -1,3 +1,4 @@
+from historico import Historico
 class Cadastro:
     
     __slots__ = ['_lista_conta']
@@ -27,3 +28,27 @@ class Cadastro:
             if lp['cpf'] == cpf and lp['senha'] == senha:
                 return lp
         return None
+
+    def sacar(self, conta, valor):
+        conta = conta
+        if(conta['saldo'] < float(valor)):
+            return False
+        else:
+            conta['saldo'] -= float(valor)
+            return True
+        
+    def depositar(self, valor):
+        if(valor < 0):
+            return False
+        else:
+            self._saldo += valor
+            self._historico._transacoes.append("deposito de {}".format(valor))
+            return True
+        
+    def transferir(self,valor,conta):
+        retirou = self.sacar(valor)
+        if(retirou == False):
+            return False
+        else:
+            conta.depositar(valor)
+            self._historico._transacoes.append("transferencia de {} para conta {}".format(valor, conta._numero))

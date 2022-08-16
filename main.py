@@ -53,7 +53,7 @@ class Main(QMainWindow, Ui_Main):
         super().__init__(parent)
         self.setupUi(self)
 
-        self.saldd = ''
+        self.pessoa = None
 
         self.cad = Cadastro()
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCliente)
@@ -90,17 +90,17 @@ class Main(QMainWindow, Ui_Main):
         if(pessoa):
             self.QtStack.setCurrentIndex(2)
             self.tela_cliente.lineEdit.setText(pessoa['nome'])
-            self.tela_cliente.lineEdit_2.setText(pessoa['saldo'])
-            self.saldd = pessoa['saldo']
+            self.tela_cliente.lineEdit_2.setText(str(pessoa['saldo']))
+            self.pessoa = pessoa
 
     def botaoCadastra(self):
         nome = self.tela_cadastro.lineEdit.text()
         cpf = self.tela_cadastro.lineEdit_2.text()
         endereco = self.tela_cadastro.lineEdit_3.text()
-        nascimento = self.tela_cadastro.dateEdit.date()
+        nascimento = self.tela_cadastro.dateEdit.text()
         senha = self.tela_cadastro.lineEdit_4.text()
         numero = self.tela_cadastro.lineEdit_5.text()
-        saldo = self.tela_cadastro.lineEdit_6.text()
+        saldo = float(self.tela_cadastro.lineEdit_6.text())
 
         if not(nome == '' or cpf == '' or endereco == '' or senha == '' or numero == '' ):
             p = Conta(nome, cpf, endereco, nascimento, senha, numero, saldo)
@@ -116,14 +116,24 @@ class Main(QMainWindow, Ui_Main):
                 QMessageBox.information(None, 'Cadastro', 'Cpf já cadastrado')
         else:
             QMessageBox.information(None, 'Cadastro', 'Valores em branco devem ser preenchidos')
+
     def botaoSacar(self,):
         self.QtStack.setCurrentIndex(4)
-        self.tela_sacar.lineEdit.setText(self.saldd)
+        self.tela_sacar.lineEdit.setText(str(self.pessoa['saldo']))
 
     def botaoDepositar(self):
         self.QtStack.setCurrentIndex(3)
 
     def sacar(self):
+        valor = float(self.tela_sacar.lineEdit_2.text())
+        saque = self.cad.sacar(self.pessoa, valor)
+        if(saque == True):
+            QMessageBox.information(None,"SAQUE", "Saque Efetuado!")
+            self.QtStack.setCurrentIndex(4)
+            self.tela_sacar.lineEdit.setText(str(self.pessoa['saldo']))
+        else:
+            QMessageBox.information(None,"SAQUE", "Saque não Efetuado!")
+
         pass
 
     def depositar(self):

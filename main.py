@@ -10,6 +10,7 @@ from tela_cadastro import Tela_Cadastro
 from tela_cliente import Tela_Cliente
 from tela_deposito import Tela_Deposito
 from tela_sacar import Tela_Sacar
+from tela_transferir import Tela_Transferir
 from cadastro import Cadastro
 from conta import Conta
 from historico import Historico
@@ -26,6 +27,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack2 = QtWidgets.QMainWindow()
         self.stack3 = QtWidgets.QMainWindow()
         self.stack4 = QtWidgets.QMainWindow()
+        self.stack5 = QtWidgets.QMainWindow()
 
         self.tela_inicial = Tela_InicioLogin()
         self.tela_inicial.setupUi(self.stack0)
@@ -42,11 +44,15 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_sacar = Tela_Sacar()
         self.tela_sacar.setupUi(self.stack4)
 
+        self.tela_transferir = Tela_Transferir()
+        self.tela_transferir.setupUi(self.stack5)
+
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
         self.QtStack.addWidget(self.stack3)
         self.QtStack.addWidget(self.stack4)
+        self.QtStack.addWidget(self.stack5)
 
 class Main(QMainWindow, Ui_Main):
     def __init__(self, parent = None):
@@ -64,7 +70,10 @@ class Main(QMainWindow, Ui_Main):
         self.tela_cadastro.pushButton_2.clicked.connect(self.voltar)
         self.tela_cliente.pushButton.clicked.connect(self.botaoSacar)
         self.tela_cliente.pushButton_2.clicked.connect(self.botaoDepositar)
+        self.tela_cliente.pushButton_3.clicked.connect(self.botaoTransferir)
         self.tela_cliente.pushButton_5.clicked.connect(self.voltar)
+        self.tela_transferir.pushButton.clicked.connect(self.transferir)
+        self.tela_transferir.pushButton_2.clicked.connect(self.abrirTelaCliente)
         self.tela_sacar.pushButton.clicked.connect(self.sacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.abrirTelaCliente)
         self.tela_deposito.pushButton.clicked.connect(self.depositar)
@@ -124,6 +133,11 @@ class Main(QMainWindow, Ui_Main):
     def botaoDepositar(self):
         self.QtStack.setCurrentIndex(3)
 
+    def botaoTransferir(self):
+        self.QtStack.setCurrentIndex(5)
+        self.tela_transferir.lineEdit.setText(str(self.pessoa['saldo']))
+
+
     def sacar(self):
         valor = float(self.tela_sacar.lineEdit_2.text())
         saque = self.cad.sacar(self.pessoa, valor)
@@ -143,6 +157,17 @@ class Main(QMainWindow, Ui_Main):
             self.QtStack.setCurrentIndex(3)
         else:
             QMessageBox.information(None,"DEPOSITO", "DEPOSITO não Efetuado!")
+
+    def transferir(self):
+        cpf = self.tela_transferir.lineEdit_3.text()
+        valor = float(self.tela_transferir.lineEdit_2.text())
+        transferir = self.cad.transferir(valor, self.pessoa, cpf)
+        if(transferir == True):
+            QMessageBox.information(None,"TRANSFERENCIA", "TRANSFERENCIA Efetuada!")
+            self.QtStack.setCurrentIndex(5)
+            self.tela_transferir.lineEdit.setText(str(self.pessoa['saldo']))
+        else:
+            QMessageBox.information(None,"TRANSFERENCIA", "TRANSFERENCIA não Efetuada!")
 
 
 if __name__ == '__main__':

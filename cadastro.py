@@ -46,9 +46,10 @@ class Cadastro:
             return True
         
     def transferir(self,valor,conta, conta1):
+        conta2 = self.busca(conta1)
         retirou = self.sacar(conta, valor)
         if(retirou == False):
             return False
         else:
-            conta.depositar(valor)
-            self._historico._transacoes.append("transferencia de {} para conta {}".format(valor, conta._numero))
+            self.depositar(conta2, valor)
+            return True

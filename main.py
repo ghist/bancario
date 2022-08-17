@@ -134,10 +134,16 @@ class Main(QMainWindow, Ui_Main):
         else:
             QMessageBox.information(None,"SAQUE", "Saque não Efetuado!")
 
-        pass
 
     def depositar(self):
-        pass
+        valor = float(self.tela_deposito.lineEdit.text())
+        deposito = self.cad.depositar(self.pessoa, valor)
+        if(deposito == True):
+            QMessageBox.information(None,"DEPOSITO", "DEPOSITO Efetuado!")
+            self.QtStack.setCurrentIndex(3)
+        else:
+            QMessageBox.information(None,"DEPOSITO", "DEPOSITO não Efetuado!")
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

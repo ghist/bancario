@@ -37,16 +37,16 @@ class Cadastro:
             conta['saldo'] -= float(valor)
             return True
         
-    def depositar(self, valor):
+    def depositar(self, conta, valor):
+        conta = conta
         if(valor < 0):
             return False
         else:
-            self._saldo += valor
-            self._historico._transacoes.append("deposito de {}".format(valor))
+            conta['saldo'] += float(valor)
             return True
         
-    def transferir(self,valor,conta):
-        retirou = self.sacar(valor)
+    def transferir(self,valor,conta, conta1):
+        retirou = self.sacar(conta, valor)
         if(retirou == False):
             return False
         else:

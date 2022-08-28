@@ -98,8 +98,8 @@ class Main(QMainWindow, Ui_Main):
         pessoa = self.cad.login(cpf, senha)
         if(pessoa):
             self.QtStack.setCurrentIndex(2)
-            self.tela_cliente.lineEdit.setText(pessoa['nome'])
-            self.tela_cliente.lineEdit_2.setText(str(pessoa['saldo']))
+            self.tela_cliente.lineEdit.setText(pessoa[1])
+            self.tela_cliente.lineEdit_2.setText(str(pessoa[6]))
             self.pessoa = pessoa
 
     def botaoCadastra(self):
@@ -128,14 +128,14 @@ class Main(QMainWindow, Ui_Main):
 
     def botaoSacar(self,):
         self.QtStack.setCurrentIndex(4)
-        self.tela_sacar.lineEdit.setText(str(self.pessoa['saldo']))
+        self.tela_sacar.lineEdit.setText(str(self.pessoa[6]))
 
     def botaoDepositar(self):
         self.QtStack.setCurrentIndex(3)
 
     def botaoTransferir(self):
         self.QtStack.setCurrentIndex(5)
-        self.tela_transferir.lineEdit.setText(str(self.pessoa['saldo']))
+        self.tela_transferir.lineEdit.setText(str(self.pessoa[6]))
 
 
     def sacar(self):
@@ -144,7 +144,7 @@ class Main(QMainWindow, Ui_Main):
         if(saque == True):
             QMessageBox.information(None,"SAQUE", "Saque Efetuado!")
             self.QtStack.setCurrentIndex(4)
-            self.tela_sacar.lineEdit.setText(str(self.pessoa['saldo']))
+            self.tela_sacar.lineEdit.setText(str(self.pessoa[6]))
         else:
             QMessageBox.information(None,"SAQUE", "Saque não Efetuado!")
 
@@ -165,7 +165,7 @@ class Main(QMainWindow, Ui_Main):
         if(transferir == True):
             QMessageBox.information(None,"TRANSFERENCIA", "TRANSFERENCIA Efetuada!")
             self.QtStack.setCurrentIndex(5)
-            self.tela_transferir.lineEdit.setText(str(self.pessoa['saldo']))
+            self.tela_transferir.lineEdit.setText(str(self.pessoa[6]))
         else:
             QMessageBox.information(None,"TRANSFERENCIA", "TRANSFERENCIA não Efetuada!")
 

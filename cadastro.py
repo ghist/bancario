@@ -31,7 +31,7 @@ class Cadastro:
         sql1 = cursor.fetchone()
         print(sql1)
         if sql1 != None:
-            return True
+            return sql1
         else:
             return None
 
@@ -48,19 +48,35 @@ class Cadastro:
             return None
 
     def sacar(self, conta, valor):
-        conta = conta
-        if(conta['saldo'] < float(valor)):
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='')
+        cursor = conexao.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE cpf = %s", (conta[0],))
+        conta1 = cursor.fetchone()
+        saldo = conta1[6]
+        print(conta1)
+        if(saldo < float(valor)):
             return False
         else:
-            conta['saldo'] -= float(valor)
+            result = saldo - float(valor)
+            cursor.execute("UPDATE usuarios SET saldo = %s WHERE cpf = %s", (result, conta[0]))
+            conexao.commit()
+            conexao.close()
             return True
         
     def depositar(self, conta, valor):
-        conta = conta
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='')
+        cursor = conexao.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE cpf = %s", (conta[0],))
+        conta1 = cursor.fetchone()
+        saldo = conta1[6]
+        print(conta1)
         if(valor < 0):
             return False
         else:
-            conta['saldo'] += float(valor)
+            result = saldo + float(valor)
+            cursor.execute("UPDATE usuarios SET saldo = %s WHERE cpf = %s", (result, conta[0]))
+            conexao.commit()
+            conexao.close()
             return True
         
     def transferir(self,valor,conta, conta1):

@@ -49,7 +49,7 @@ class cliente_Thread(threading.Thread):
                     self.conex.send(
                         '0, Cadastro realizado com sucesso!'.encode())
                 else:
-                    self.conex.sendo('1, O cpf já está cadastrado!'.encode())
+                    self.conex.send('1, O cpf já está cadastrado!'.encode())
             
             elif(operacao[0] == '2'):#login
                 cursor = conexao.cursor()
@@ -74,8 +74,8 @@ class cliente_Thread(threading.Thread):
                         else:
                             self.conex.send('1, Dados de login incorretos'.encode())
 
-                else:
-                    self.conex.send('3, Cliente nao cadastrado!'.encode())
+                    else:
+                        self.conex.send('3, Cliente nao cadastrado!'.encode())
 
             elif(operacao[0] == '3'):#sacar
 

@@ -126,7 +126,7 @@ class Main(QMainWindow, Ui_Main):
                     QMessageBox.information(None, 'mensagem', mensagem[1])
                 
             else:
-                QMessageBox.information(None, 'AppBanck', 'Servidor fora do ar! tente mais tarde')
+                QMessageBox.information(None, 'AppBank', 'Servidor fora do ar! tente mais tarde')
 
     def botaoCadastra(self):
         nome = self.tela_cadastro.lineEdit.text()

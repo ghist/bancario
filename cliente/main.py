@@ -94,6 +94,7 @@ class Main(QMainWindow, Ui_Main):
 
 
     def sair(self):
+        self.conectar_servidor.envia('encerrar')
         exit()
 
     def abrirTelaCadastro(self):
